@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stunting and Obesity Data Visualizations in Asian Countries</title>
+    <title>Stunting and Obesity Data Visualizations - Asian Countries</title>
     <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
@@ -33,10 +33,18 @@
             "mark": "line",
             "encoding": {
                 "x": {"field": "Survey Years", "type": "temporal", "title": "Year"},
-                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"},
+                "y": {
+                  "field": "Point Estimate",
+                  "type": "quantitative",
+                  "title": "Stunting (%)"
+                },
                 "tooltip": [
                     {"field": "Survey Years", "type": "temporal", "title": "Year"},
-                    {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"}
+                    {
+                      "field": "Point Estimate",
+                      "type": "quantitative",
+                      "title": "Stunting (%)"
+                    }
                 ]
             }
         };
@@ -54,16 +62,26 @@
             "mark": "bar",
             "encoding": {
                 "x": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-y"},
-                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"},
+                "y": {
+                  "field": "Point Estimate",
+                  "type": "quantitative",
+                  "title": "Obesity (%)"
+                },
                 "tooltip": [
                     {"field": "Countries", "type": "nominal", "title": "Country"},
-                    {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"}
+                    {
+                      "field": "Point Estimate",
+                      "type": "quantitative",
+                      "title": "Obesity (%)"
+                    }
                 ]
             }
         };
 
-        // Embed the visualizations in the HTML page
+        // Embed the stunning chart
         vegaEmbed('#stunning_chart', stunningSpec).catch(console.error);
+
+        // Embed the obesity chart
         vegaEmbed('#obesity_chart', obesitySpec).catch(console.error);
     </script>
 </body>
