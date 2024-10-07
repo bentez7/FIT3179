@@ -4,73 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stunting and Obesity Data Visualizations</title>
-    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 <body>
-    <h1>Interactive Visualizations: Stunting and Obesity Data</h1>
-
-    <h2>Stunting Point Estimate by Country</h2>
-    <div id="stunning_chart"></div>
+    <h1>Stunting and Obesity Data Visualizations</h1>
     
-    <h2>Obesity Point Estimate by Country</h2>
+    <h2>Stunting Point Estimate Over Years (Line Chart)</h2>
+    <div id="stunting_chart"></div>
+    
+    <h2>Obesity Point Estimate Over Years (Bar Chart)</h2>
     <div id="obesity_chart"></div>
-
+    
     <script type="text/javascript">
-        // Stunning Visualization Spec
-        var stunningSpec = {
+        var stuntingSpec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Stunting Point Estimate by Country",
-            "width": 800,
-            "height": 400,
+            "title": "Stunting Point Estimate Over Years",
+            "width": 600,
+            "height": 300,
             "mark": "line",
             "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Stunning.csv",
-                "format": {"type": "csv"}
-            },
-            "encoding": {
-                "x": {"field": "Survey Years", "type": "temporal", "title": "Year"},
-                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunning Percentage"},
-                "color": {"field": "Countries and areas", "type": "nominal", "title": "Country"}
-            },
-            "tooltip": [{"field": "Survey Years", "type": "temporal"}, {"field": "Point Estimate", "type": "quantitative"}],
-            "selection": {
-                "Country": {
-                    "type": "multi", "fields": ["Countries and areas"],
-                    "bind": "legend"
-                }
-            }
-        };
-
-        // Obesity Visualization Spec
-        var obesitySpec = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Obesity Point Estimate by Country",
-            "width": 800,
-            "height": 400,
-            "mark": "line",
-            "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Obesity.csv",
-                "format": {"type": "csv"}
+                "values": [
+                    {"Year*": 1997, "Point Estimate": 53.2},
+                    {"Year*": 2004, "Point Estimate": 59.3},
+                    {"Year*": 2013, "Point Estimate": 40.4},
+                    {"Year*": 2018, "Point Estimate": 38.2},
+                    {"Year*": 2005, "Point Estimate": 26.7}
+                ]
             },
             "encoding": {
                 "x": {"field": "Year*", "type": "temporal", "title": "Year"},
-                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity Percentage"},
-                "color": {"field": "Countries and areas", "type": "nominal", "title": "Country"}
+                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"},
+                "tooltip": [{"field": "Year*", "type": "temporal"}, {"field": "Point Estimate", "type": "quantitative"}]
             },
-            "tooltip": [{"field": "Year*", "type": "temporal"}, {"field": "Point Estimate", "type": "quantitative"}],
-            "selection": {
-                "Country": {
-                    "type": "multi", "fields": ["Countries and areas"],
-                    "bind": "legend"
+            "layer": [
+                {
+                    "mark": "line",
+                    "encoding": {
+                        "x": {"field": "Year*", "type": "temporal"},
+                        "y": {"field": "Point Estimate", "type": "quantitative"}
+                    }
+                },
+                {
+                    "mark": "rule",
+                    "encoding": {
+                        "x": {"datum": 2004, "type": "temporal"}
+                    }
                 }
-            }
+            ],
+            "params": [
+                {
+                    "name": "yearSlider",
+                    "value": {"Year*": [1997, 2018]},
+                    "bind": {
+                        "input": "range",
+                        "min": 1997,
+                        "max": 2018,
+                        "step": 1
+                    }
+                }
+            ],
+            "transform": [{"filter": {"param": "yearSlider"}}]
         };
 
-        // Embed the visualizations in the HTML page
-        vegaEmbed('#stunning_chart', stunningSpec).catch(console.error);
-        vegaEmbed('#obesity_chart', obesitySpec).catch(console.error);
+        var obesitySpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Obesity Point Estimate Over Years",
+            "width": 600,
+            "height": 300,
+            "mark": "bar",
+            "data": {
+                "values": [
+                    {"Year*": 1997, "Point Estimate": 6.5},
+                    {"Year*": 2004, "Point Estimate": 4.6},
+                    {"Year*": 2013, "Point Estimate": 5.3},
+                    {"Year*": 2018, "Point Estimate": 4.1},
+                    {"Year*": 2005, "Point Estimate": 24.8}
+                ]
+            },
+            "encoding": {
+                "x": {"field": "Year*", "type": "temporal", "title": "Year"},
+                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"},
+                "tooltip": [{"field": "Year*", "type": "temporal"}, {"field": "Point Estimate", "type": "quantitative"}]
+            },
+            "layer": [
+                {
+                    "mark": "bar",
+                    "encoding": {
+                        "x": {"field": "Year*", "type": "temporal"},
+                        "y": {"field": "Point Estimate", "type": "quantitative"}
+                    }
+                },
+                {
+                    "mark": "rule",
+                    "encoding": {
+                        "x": {"datum": 2005, "type": "temporal"}
+                    }
+                }
+            ],
+            "params": [
+                {
+                    "name": "yearSlider",
+                    "value": {"Year*": [1997, 2018]},
+                    "bind": {
+                        "input": "range",
+                        "min": 1997,
+                        "max": 2018,
+                        "step": 1
+                    }
+                }
+            ],
+            "transform": [{"filter": {"param": "yearSlider"}}]
+        };
+
+        vegaEmbed('#stunting_chart', stuntingSpec);
+        vegaEmbed('#obesity_chart', obesitySpec);
     </script>
 </body>
 </html>
