@@ -13,35 +13,55 @@
 
     <!-- Stunting Line Chart -->
     <h2>Stunting Point Estimate Over Years</h2>
-    <div id="stunting_chart"></div>
+    <div id="stunning_chart"></div>
 
-    <!-- Obesity Bar Chart with Slider Filter -->
+    <!-- Obesity Bar Chart with Legend Selection -->
     <h2>Obesity Point Estimate by Country</h2>
     <div id="obesity_chart"></div>
 
     <script type="text/javascript">
-        // Stunting Line Chart Spec
+        // Stunting Line Chart with Text/Line Annotations
         var stunningSpec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Stunting Point Estimate Over Years",
             "width": 800,
             "height": 400,
-            "mark": "line",
-            "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Stunting.csv",
-                "format": {"type": "csv"}
-            },
-            "encoding": {
-                "x": {"field": "Year", "type": "temporal", "title": "Year"},
-                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"},
-                "tooltip": [
-                    {"field": "Year", "type": "temporal", "title": "Year"},
-                    {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"}
-                ]
-            }
+            "layer": [
+                {
+                    "mark": "line",
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Stunting.csv",
+                        "format": {"type": "csv"}
+                    },
+                    "encoding": {
+                        "x": {"field": "Year", "type": "temporal", "title": "Year"},
+                        "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"},
+                        "tooltip": [
+                            {"field": "Year", "type": "temporal", "title": "Year"},
+                            {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"}
+                        ]
+                    }
+                },
+                {
+                    // Line Annotation for Year 2018
+                    "mark": {"type": "rule", "color": "red", "strokeWidth": 2},
+                    "encoding": {
+                        "x": {"datum": 2018, "type": "temporal"}
+                    }
+                },
+                {
+                    // Text Annotation for Year 2018
+                    "mark": {"type": "text", "color": "red", "align": "left", "dx": 5, "dy": -5},
+                    "encoding": {
+                        "x": {"datum": 2018, "type": "temporal"},
+                        "y": {"datum": 38.2, "type": "quantitative"},
+                        "text": {"value": "2018: 38.2%"}
+                    }
+                }
+            ]
         };
 
-        // Obesity Bar Chart with Slider Filter Spec
+        // Obesity Bar Chart with Legend Selection Spec
         var obesitySpec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Obesity Point Estimate by Country",
@@ -55,33 +75,23 @@
             "encoding": {
                 "x": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-y"},
                 "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"},
+                "color": {"field": "Countries", "type": "nominal", "legend": {"title": "Country"}},
                 "tooltip": [
                     {"field": "Countries", "type": "nominal", "title": "Country"},
                     {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"}
                 ]
             },
-            "params": [
-                {
-                    "name": "obesitySlider",
-                    "value": [0, 30],
-                    "bind": {
-                        "input": "range",
-                        "min": 0,
-                        "max": 50,
-                        "step": 0.1,
-                        "name": "Obesity Filter (Percentage): "
-                    }
+            "selection": {
+                "Country": {
+                    "type": "multi", 
+                    "fields": ["Countries"], 
+                    "bind": "legend"
                 }
-            ],
-            "transform": [
-                {
-                    "filter": "datum['Point Estimate'] >= obesitySlider[0] && datum['Point Estimate'] <= obesitySlider[1]"
-                }
-            ]
+            }
         };
 
         // Embed the charts
-        vegaEmbed('#stunting_chart', stunningSpec).catch(console.error);
+        vegaEmbed('#stunning_chart', stunningSpec).catch(console.error);
         vegaEmbed('#obesity_chart', obesitySpec).catch(console.error);
     </script>
 </body>
