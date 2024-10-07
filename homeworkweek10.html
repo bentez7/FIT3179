@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stunting and Obesity Data Visualizations</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+</head>
+<body>
+    <h1>Interactive Visualizations: Stunting and Obesity Data</h1>
+
+    <h2>Stunting Point Estimate by Country</h2>
+    <div id="stunning_chart"></div>
+    
+    <h2>Obesity Point Estimate by Country</h2>
+    <div id="obesity_chart"></div>
+
+    <script type="text/javascript">
+        // Stunning Visualization Spec
+        var stunningSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Stunting Point Estimate by Country",
+            "width": 800,
+            "height": 400,
+            "mark": "line",
+            "data": {
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Stunning.csv",
+                "format": {"type": "csv"}
+            },
+            "encoding": {
+                "x": {"field": "Survey Years", "type": "temporal", "title": "Year"},
+                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunning Percentage"},
+                "color": {"field": "Countries and areas", "type": "nominal", "title": "Country"}
+            },
+            "tooltip": [{"field": "Survey Years", "type": "temporal"}, {"field": "Point Estimate", "type": "quantitative"}],
+            "selection": {
+                "Country": {
+                    "type": "multi", "fields": ["Countries and areas"],
+                    "bind": "legend"
+                }
+            }
+        };
+
+        // Obesity Visualization Spec
+        var obesitySpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Obesity Point Estimate by Country",
+            "width": 800,
+            "height": 400,
+            "mark": "line",
+            "data": {
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Obesity.csv",
+                "format": {"type": "csv"}
+            },
+            "encoding": {
+                "x": {"field": "Year*", "type": "temporal", "title": "Year"},
+                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity Percentage"},
+                "color": {"field": "Countries and areas", "type": "nominal", "title": "Country"}
+            },
+            "tooltip": [{"field": "Year*", "type": "temporal"}, {"field": "Point Estimate", "type": "quantitative"}],
+            "selection": {
+                "Country": {
+                    "type": "multi", "fields": ["Countries and areas"],
+                    "bind": "legend"
+                }
+            }
+        };
+
+        // Embed the visualizations in the HTML page
+        vegaEmbed('#stunning_chart', stunningSpec).catch(console.error);
+        vegaEmbed('#obesity_chart', obesitySpec).catch(console.error);
+    </script>
+</body>
+</html>
