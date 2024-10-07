@@ -15,7 +15,7 @@
     <h2>Stunting Point Estimate Over Years</h2>
     <div id="stunning_chart"></div>
 
-    <!-- Obesity Bar Chart with Legend Selection -->
+    <!-- Obesity Bar Chart with Legend Selection and Annotation for Kuwait -->
     <h2>Obesity Point Estimate by Country</h2>
     <div id="obesity_chart"></div>
 
@@ -61,26 +61,39 @@
             ]
         };
 
-        // Obesity Bar Chart with Legend Selection Spec
+        // Obesity Bar Chart with Legend Selection and Annotation for Kuwait
         var obesitySpec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "title": "Obesity Point Estimate by Country",
             "width": 800,
             "height": 400,
-            "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Obesity(csv).csv",
-                "format": {"type": "csv"}
-            },
-            "mark": "bar",
-            "encoding": {
-                "x": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-y"},
-                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"},
-                "color": {"field": "Countries", "type": "nominal", "legend": {"title": "Country"}},
-                "tooltip": [
-                    {"field": "Countries", "type": "nominal", "title": "Country"},
-                    {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"}
-                ]
-            },
+            "layer": [
+                {
+                    "mark": "bar",
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Obesity(csv).csv",
+                        "format": {"type": "csv"}
+                    },
+                    "encoding": {
+                        "x": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-y"},
+                        "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"},
+                        "color": {"field": "Countries", "type": "nominal", "legend": {"title": "Country"}},
+                        "tooltip": [
+                            {"field": "Countries", "type": "nominal", "title": "Country"},
+                            {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"}
+                        ]
+                    }
+                },
+                {
+                    // Text Annotation for Kuwait
+                    "mark": {"type": "text", "color": "red", "align": "left", "dx": 5, "dy": -5},
+                    "encoding": {
+                        "x": {"datum": "Kuwait", "type": "nominal"},
+                        "y": {"datum": 8.3, "type": "quantitative"},
+                        "text": {"value": "Kuwait: 8.3%"}
+                    }
+                }
+            ],
             "selection": {
                 "Country": {
                     "type": "multi", 
