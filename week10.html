@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stunting and Obesity Data Visualizations</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+</head>
+<body>
+    <h1>Stunting and Obesity Point Estimate Over Years</h1>
+
+    <!-- Stunting Line Chart -->
+    <h2>Stunting Point Estimate Over Years</h2>
+    <div id="stunting_chart"></div>
+
+    <!-- Obesity Bar Chart with Slider Filter -->
+    <h2>Obesity Point Estimate by Country</h2>
+    <div id="obesity_chart"></div>
+
+    <script type="text/javascript">
+        // Stunting Line Chart Spec
+        var stunningSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Stunting Point Estimate Over Years",
+            "width": 800,
+            "height": 400,
+            "mark": "line",
+            "data": {
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Stunting.csv",
+                "format": {"type": "csv"}
+            },
+            "encoding": {
+                "x": {"field": "Year", "type": "temporal", "title": "Year"},
+                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"},
+                "tooltip": [
+                    {"field": "Year", "type": "temporal", "title": "Year"},
+                    {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"}
+                ]
+            }
+        };
+
+        // Obesity Bar Chart with Slider Filter Spec
+        var obesitySpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Obesity Point Estimate by Country",
+            "width": 800,
+            "height": 400,
+            "data": {
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Obesity(csv).csv",
+                "format": {"type": "csv"}
+            },
+            "mark": "bar",
+            "encoding": {
+                "x": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-y"},
+                "y": {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"},
+                "tooltip": [
+                    {"field": "Countries", "type": "nominal", "title": "Country"},
+                    {"field": "Point Estimate", "type": "quantitative", "title": "Obesity (%)"}
+                ]
+            },
+            "params": [
+                {
+                    "name": "obesitySlider",
+                    "value": [0, 30],
+                    "bind": {
+                        "input": "range",
+                        "min": 0,
+                        "max": 50,
+                        "step": 0.1,
+                        "name": "Obesity Filter (Percentage): "
+                    }
+                }
+            ],
+            "transform": [
+                {
+                    "filter": "datum['Point Estimate'] >= obesitySlider[0] && datum['Point Estimate'] <= obesitySlider[1]"
+                }
+            ]
+        };
+
+        // Embed the charts
+        vegaEmbed('#stunting_chart', stunningSpec).catch(console.error);
+        vegaEmbed('#obesity_chart', obesitySpec).catch(console.error);
+    </script>
+</body>
+</html>
