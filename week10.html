@@ -40,13 +40,16 @@
                     }
                 },
                 {
-                    // Text Annotation for Kuwait with a specific obesity point
+                    // Corrected text annotation for Kuwait
                     "mark": {"type": "text", "color": "red", "align": "left", "dx": 5, "dy": -5},
                     "encoding": {
-                        "x": {"datum": "Kuwait", "type": "nominal"},
-                        "y": {"datum": 12.1, "type": "quantitative"},
+                        "x": {"field": "Countries", "type": "nominal", "title": "Country"},
+                        "y": {"field": "Point Estimate", "type": "quantitative"},
                         "text": {"value": "Kuwait: 12.1%"}
-                    }
+                    },
+                    "transform": [
+                        {"filter": "datum.Countries === 'Kuwait'"}
+                    ]
                 }
             ]
         };
