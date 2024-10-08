@@ -15,10 +15,9 @@
             flex-direction: column;
             margin: 0;
             padding: 0;
-            height: 100vh;
         }
 
-        #obesity_chart {
+        #stunning_chart, #obesity_chart {
             width: 100%;
         }
     </style>
@@ -26,11 +25,56 @@
 <body>
     <h1>Stunting and Obesity Point Estimate Over Years</h1>
 
+    <!-- Stunting Line Chart -->
+    <h2>Stunting Point Estimate Over Years</h2>
+    <div id="stunning_chart"></div>
+
     <!-- Obesity Bar Chart with Legend Selection and Annotation for Kuwait -->
     <h2>Obesity Point Estimate by Country</h2>
     <div id="obesity_chart"></div>
 
     <script type="text/javascript">
+        // Stunting Line Chart with Text/Line Annotations
+        var stunningSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": {"text": "Stunting Point Estimate Over Years", "anchor": "middle"},
+            "width": "container",  // Makes the chart take full width of the container
+            "height": 400,
+            "layer": [
+                {
+                    "mark": "line",
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Stunting.csv",
+                        "format": {"type": "csv"}
+                    },
+                    "encoding": {
+                        "x": {"field": "Year", "type": "temporal", "title": "Year"},
+                        "y": {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"},
+                        "tooltip": [
+                            {"field": "Year", "type": "temporal", "title": "Year"},
+                            {"field": "Point Estimate", "type": "quantitative", "title": "Stunting (%)"}
+                        ]
+                    }
+                },
+                {
+                    // Line Annotation for Year 2018
+                    "mark": {"type": "rule", "color": "red", "strokeWidth": 2},
+                    "encoding": {
+                        "x": {"datum": 2018, "type": "temporal"}
+                    }
+                },
+                {
+                    // Text Annotation for Year 2018
+                    "mark": {"type": "text", "color": "red", "align": "center", "dx": 5, "dy": -5},
+                    "encoding": {
+                        "x": {"datum": 2018, "type": "temporal"},
+                        "y": {"datum": 38.2, "type": "quantitative"},
+                        "text": {"value": "2018: 38.2%"}
+                    }
+                }
+            ]
+        };
+
         // Obesity Bar Chart with Legend Selection and Annotation for Kuwait
         var obesitySpec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -69,7 +113,8 @@
             ]
         };
 
-        // Embed the chart
+        // Embed the charts
+        vegaEmbed('#stunning_chart', stunningSpec).catch(console.error);
         vegaEmbed('#obesity_chart', obesitySpec).catch(console.error);
     </script>
 </body>
