@@ -7,6 +7,21 @@
     <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        #obesity_chart {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <h1>Stunting and Obesity Point Estimate Over Years</h1>
@@ -19,8 +34,8 @@
         // Obesity Bar Chart with Legend Selection and Annotation for Kuwait
         var obesitySpec = {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Obesity Point Estimate by Country",
-            "width": 800,
+            "title": {"text": "Obesity Point Estimate by Country", "anchor": "middle"},
+            "width": "container",  // Makes the chart take full width of the container
             "height": 400,
             "layer": [
                 {
@@ -40,8 +55,8 @@
                     }
                 },
                 {
-                    // Corrected text annotation for Kuwait
-                    "mark": {"type": "text", "color": "red", "align": "left", "dx": 5, "dy": -5},
+                    // Text Annotation for Kuwait
+                    "mark": {"type": "text", "color": "red", "align": "center", "dx": 0, "dy": -5},
                     "encoding": {
                         "x": {"field": "Countries", "type": "nominal", "title": "Country"},
                         "y": {"field": "Point Estimate", "type": "quantitative"},
