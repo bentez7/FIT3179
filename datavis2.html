@@ -3,43 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malnutrition Infographic</title>
+    <title>Asia’s Ongoing Battle with Malnutrition Amid Climate Change</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Import Vega, Vega-Lite, and Vega-Embed -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
 </head>
 <body>
 
+    <!-- Header Section -->
     <header>
-        <h1>Malnutrition and Its Factors in Asia</h1>
-        <p>This infographic highlights key data on malnutrition trends across Asia, including stunting, overweight, and wasting.</p>
+        <h1>Asia’s Ongoing Battle with Malnutrition Amid Climate Change</h1>
+        <p>
+            This research investigates the persistent issue of malnutrition in Asia, despite global efforts to combat it,
+            by examining the impact of ongoing climate change from different aspects, aligned with the Sustainable Development Goals.
+        </p>
     </header>
 
+    <!-- Stunting, Wasting, and Overweight Section -->
     <section>
-        <h2>Trends in National Estimates of Overweight, Stunting, and Severe Wasting (1986–2022)</h2>
+        <h2>Stunting, Wasting & Overweight in Asia (2023)</h2>
+        <p class="description">
+            Malnutrition in Asia remains a pressing issue, with stunting affecting 55% of children, while 68% suffer from wasting, 
+            and 47% from being overweight. These rates are more severe compared to other regions globally (Yani et al., 2023).
+        </p>
         <div id="linechart"></div>
+        <div class="key-insights">
+            <h3>Key Insights:</h3>
+            <ul>
+                <li><strong>Stunting</strong> remains the most critical malnutrition challenge across Asia.</li>
+                <li><strong>Severe Wasting</strong> shows stable trends but still accounts for 20-30% of malnutrition-related mortality.</li>
+                <li><strong>Overweight</strong> has been rising, particularly since the early 2000s, contributing to non-communicable diseases (NCDs) such as cardiovascular disease, diabetes, and cancer (Thapa et al., 2021).</li>
+            </ul>
+        </div>
     </section>
 
+    <!-- Climate Change and Food Security Section -->
     <section>
-        <h2>Stunting Estimates by Income Group (Asian Countries)</h2>
-        <div id="barchart"></div>
+        <h2>Melting Glaciers and Rising Seas: Climate Change Threatens Food Security</h2>
+        <p class="description">
+            Climate change is drastically affecting food security in Asia, with glacier mass loss and rising sea temperatures contributing to food production issues.
+        </p>
+        <div id="map"></div>
+        <div class="key-insights">
+            <h3>Key Insights:</h3>
+            <ul>
+                <li>The <strong>Drang-Drung Glacier</strong> in India is undergoing the most severe loss in glacier mass balance.</li>
+                <li>Glacier melt will have a lasting impact on water resources and food production (Smail, 2024).</li>
+                <li><strong>Rising sea levels</strong> due to climate change threaten soil quality, ultimately affecting agriculture yield (Jusop, 2022).</li>
+            </ul>
+        </div>
     </section>
 
+    <!-- Stunting Estimates by Income Group Section -->
+    <section>
+        <h2>Stunting Estimates by Income Group in Asia</h2>
+        <p class="description">
+            This bar chart illustrates the disparity in stunting rates across Asian countries, categorized by income groups. The data shows that lower-middle-income countries face the highest stunting rates (Yani et al., 2023).
+        </p>
+        <div id="barchart"></div>
+        <div class="key-insights">
+            <h3>Key Insights:</h3>
+            <ul>
+                <li><strong>Bangladesh</strong> ranks first in stunting rates, followed by India and Pakistan.</li>
+                <li>Education and income levels are significant factors influencing malnutrition. Parents equipped with better knowledge about nutrition can reduce stunting rates significantly.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Stunting vs Education Disparity Section -->
     <section>
         <h2>Stunting Estimates vs Education Disparities in Asia</h2>
+        <p class="description">
+            This chart shows the positive correlation between education disparity and stunting prevalence across Asian countries. Countries with higher education disparity experience higher rates of stunting.
+        </p>
         <div id="scatterplot"></div>
+        <div class="key-insights">
+            <h3>Key Insights:</h3>
+            <ul>
+                <li>There is a positive correlation between <strong>education disparity</strong> and stunting prevalence.</li>
+                <li>Improving education levels could mitigate malnutrition and reduce stunting rates (Yani et al., 2023).</li>
+            </ul>
+        </div>
     </section>
 
-    <section>
-        <h2>Stunting Percentage by State in Malaysia</h2>
-        <div id="map"></div>
-    </section>
+    <!-- Footer Section -->
+    <footer>
+        <p>For further insights, check our <a href="#">full report</a> and policy recommendations.</p>
+        <p>&copy; 2024 Malnutrition Research. All rights reserved.</p>
+    </footer>
 
-    <!-- Include the JavaScript directly in HTML -->
+    <!-- Vega Embed Scripts for Charts -->
     <script>
-        // Line Chart
+        // Line Chart for Trends in Malnutrition
         vegaEmbed('#linechart', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": 800,
@@ -48,191 +104,46 @@
             "data": {
                 "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Cleaned_data.csv"
             },
-            "transform": [
-                {
-                    "fold": [
-                        "Overweight_National_Point_Estimate",
-                        "Stunting_National_Point_Estimate",
-                        "Severe_Wasting_National_Point_Estimate"
-                    ],
-                    "as": ["Types of Malnutrition", "National Point Estimate"]
-                }
-            ],
+            "transform": [{
+                "fold": ["Overweight_National_Point_Estimate", "Stunting_National_Point_Estimate", "Severe_Wasting_National_Point_Estimate"],
+                "as": ["Types of Malnutrition", "National Point Estimate"]
+            }],
             "mark": "line",
             "encoding": {
-                "x": {
-                    "field": "Year",
-                    "type": "temporal",
-                    "axis": {"title": "Year"}
-                },
-                "y": {
-                    "field": "National Point Estimate",
-                    "type": "quantitative",
-                    "axis": {"title": "National Point Estimates"}
-                },
-                "color": {
-                    "field": "Types of Malnutrition",
-                    "type": "nominal",
-                    "legend": {"title": "Types of Malnutrition"}
-                },
-                "tooltip": [
-                  {"field": "Year", "type": "temporal"},
-                  {"field": "National Point Estimate", "type": "quantitative"},
-                  {"field": "Types of Malnutrition", "type": "nominal"}
-                ]
+                "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year"}},
+                "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate"}},
+                "color": {"field": "Types of Malnutrition", "type": "nominal", "legend": {"title": "Types of Malnutrition"}},
+                "tooltip": [{"field": "Year"}, {"field": "National Point Estimate"}, {"field": "Types of Malnutrition"}]
             }
         }, {tooltip: true});
 
-        // Bar Chart
+        // Bar Chart for Stunting by Income Group
         vegaEmbed('#barchart', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Stunting Estimates by Income Group (Asian Countries)",
             "width": 800,
             "height": 400,
-            "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Income%20and%20stunning%20dataset.csv",
-                "format": {"type": "csv"}
-            },
+            "title": "Stunting Estimates by Income Group (Asian Countries)",
+            "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Income%20and%20stunning%20dataset.csv", "format": {"type": "csv"}},
             "mark": "bar",
             "encoding": {
-                "y": {
-                    "field": "Countries",
-                    "type": "nominal",
-                    "title": "Country",
-                    "sort": "-x"
-                },
-                "x": {
-                    "field": "Estimate",
-                    "type": "quantitative",
-                    "title": "Stunting (%)"
-                },
-                "color": {
-                    "field": "Income Groups",
-                    "type": "nominal",
-                    "title": "Income Group",
-                    "scale": {
-                        "domain": ["High Income", "Upper Middle Income", "Lower Middle Income"],
-                        "range": ["#377eb8", "#e41a1c", "#ff7f00"]
-                    }
-                },
-                "tooltip": [
-                  {"field": "Countries", "type": "nominal"},
-                  {"field": "Estimate", "type": "quantitative"},
-                  {"field": "Income Groups", "type": "nominal"}
-                ]
+                "y": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-x"},
+                "x": {"field": "Estimate", "type": "quantitative", "title": "Stunting (%)"},
+                "color": {"field": "Income Groups", "type": "nominal", "title": "Income Group", "scale": {"domain": ["High Income", "Upper Middle Income", "Lower Middle Income"], "range": ["#377eb8", "#e41a1c", "#ff7f00"]}},
+                "tooltip": [{"field": "Countries"}, {"field": "Estimate"}, {"field": "Income Groups"}]
             }
         }, {tooltip: true});
 
-        // Scatterplot for Stunting Estimates vs Education Disparities
+        // Scatterplot for Education vs Stunting
         vegaEmbed('#scatterplot', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Stunting Estimates vs Education Disparities in Asia",
             "width": 600,
             "height": 400,
-            "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv",
-                "format": {"type": "csv"}
-            },
-            "layer": [
-                {
-                    "mark": "point",
-                    "encoding": {
-                        "x": {
-                            "field": "Education",
-                            "type": "quantitative",
-                            "title": "Education Disparity"
-                        },
-                        "y": {
-                            "field": "Estimate",
-                            "type": "quantitative",
-                            "title": "Stunting Estimate (%)"
-                        },
-                        "tooltip": [
-                            {"field": "Education", "type": "quantitative", "title": "Education Disparity"},
-                            {"field": "Estimate", "type": "quantitative", "title": "Stunting Estimate (%)"}
-                        ],
-                        "color": {
-                            "condition": {
-                                "test": "datum.Estimate > datum.Education",
-                                "value": "red"
-                            },
-                            "value": "blue"
-                        }
-                    }
-                },
-                {
-                    "mark": {
-                        "type": "line",
-                        "color": "black",
-                        "strokeDash": [4, 4]
-                    },
-                    "transform": [
-                        {"regression": "Estimate", "on": "Education", "method": "linear"}
-                    ],
-                    "encoding": {
-                        "x": {"field": "Education", "type": "quantitative"},
-                        "y": {"field": "Estimate", "type": "quantitative"}
-                    }
-                }
-            ]
-        }, {tooltip: true});
-
-        // Map of Malaysia
-        vegaEmbed('#map', {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "title": "Stunting Percentage by State in Malaysia",
-            "width": 1200,
-            "height": 600,
-            "projection": {
-                "type": "mercator",
-                "scale": 3000,
-                "translate": [600, 300],
-                "center": [110, 3]
-            },
-            "layer": [
-                {
-                    "data": {
-                        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-                        "format": { "type": "topojson", "feature": "oceans" }
-                    },
-                    "mark": { "type": "geoshape", "fill": "skyblue" }
-                },
-                {
-                    "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"}
-                },
-                {
-                    "data": {
-                        "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson",
-                        "format": {"type": "topojson", "feature": "states"}
-                    },
-                    "transform": [
-                        {
-                            "lookup": "properties.Name",
-                            "from": {
-                                "data": {
-                                    "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Stunting(Malaysia).csv",
-                                    "format": {"type": "csv"}
-                                },
-                                "key": "States",
-                                "fields": ["Percentage"]
-                            }
-                        }
-                    ],
-                    "mark": {"type": "geoshape"},
-                    "encoding": {
-                        "color": {
-                            "field": "Percentage",
-                            "type": "quantitative",
-                            "scale": {"scheme": "reds"}
-                        },
-                        "tooltip": [
-                            {"field": "properties.Name", "type": "nominal", "title": "State"},
-                            {"field": "Percentage", "type": "quantitative", "title": "Stunting (%)"}
-                        ]
-                    }
-                }
-            ]
-        }, {tooltip: true});
-    </script>
-</body>
-</html>
+            "title": "Stunting Estimates vs Education Disparities in Asia",
+            "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv", "format": {"type": "csv"}},
+            "layer": [{
+                "mark": "point",
+                "encoding": {
+                    "x": {"field": "Education", "type": "quantitative", "title": "Education Disparity"},
+                    "y": {"field": "Estimate", "type": "quantitative", "title": "Stunting Estimate (%)"},
+                    "tooltip": [{"field": "Education", "type": "quantitative"}, {"field": "Estimate", "type": "quantitative"}],
+                    "color": {"condition": {"test": "datum.Estimate > datum.Education", "value
