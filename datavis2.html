@@ -128,30 +128,37 @@
                     "mark": "point",
                     "encoding": {
                         "x": {
-                            "field": "Education",  // Use actual field name in your CSV
+                            "field": "Education",
                             "type": "quantitative",
                             "title": "Education Disparity"
                         },
                         "y": {
-                            "field": "Estimate",  // Ensure this matches the CSV field
+                            "field": "Estimate",
                             "type": "quantitative",
                             "title": "Stunting Estimate (%)"
                         },
                         "tooltip": [
                             {"field": "Education", "type": "quantitative", "title": "Education Disparity"},
                             {"field": "Estimate", "type": "quantitative", "title": "Stunting Estimate (%)"}
-                        ]
+                        ],
+                        "color": {
+                            "condition": {
+                                "test": "datum.Estimate > datum.Education",
+                                "value": "red"
+                            },
+                            "value": "blue"
+                        }
                     }
                 },
                 {
-                    "transform": [
-                        {"regression": "Estimate", "on": "Education", "method": "linear"}
-                    ],
                     "mark": {
                         "type": "line",
                         "color": "black",
                         "strokeDash": [4, 4]
                     },
+                    "transform": [
+                        {"regression": "Estimate", "on": "Education", "method": "linear"}
+                    ],
                     "encoding": {
                         "x": {"field": "Education", "type": "quantitative"},
                         "y": {"field": "Estimate", "type": "quantitative"}
