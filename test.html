@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stunting Estimates vs Education Disparities in Asia</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
+</head>
+<body>
+    <div id="vis"></div>
+    <script type="text/javascript">
+        var spec = {
+          "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+          "title": "Stunting Estimates vs Education Disparities in Asia",
+          "width": 600,
+          "height": 400,
+          "data": {
+            "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv",
+            "format": {"type": "csv"}
+          },
+          "layer": [
+            {
+              "mark": "point",
+              "encoding": {
+                "x": {
+                  "field": "Education",
+                  "type": "quantitative",
+                  "title": "Education Disparity"
+                },
+                "y": {
+                  "field": "Estimate",
+                  "type": "quantitative",
+                  "title": "Stunting Estimate (%)"
+                },
+                "tooltip": [
+                  {"field": "Education", "type": "quantitative", "title": "Education Disparity"},
+                  {"field": "Estimate", "type": "quantitative", "title": "Stunting Estimate (%)"}
+                ],
+                "color": {
+                  "condition": {
+                    "test": "datum.Estimate > datum.Education",
+                    "value": "red"
+                  },
+                  "value": "blue"
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "line",
+                "color": "black",
+                "strokeDash": [4, 4]
+              },
+              "transform": [
+                {"regression": "Estimate", "on": "Education", "method": "linear"}
+              ],
+              "encoding": {
+                "x": {"field": "Education", "type": "quantitative"},
+                "y": {"field": "Estimate", "type": "quantitative"}
+              }
+            }
+          ]
+        };
+
+        vegaEmbed('#vis', spec).then(function(result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+    </script>
+</body>
+</html>
