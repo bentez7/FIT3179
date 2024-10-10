@@ -30,6 +30,7 @@ section {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 section h2 {
@@ -52,6 +53,7 @@ section p.description {
 .key-insights ul {
     list-style-type: square;
     padding-left: 20px;
+    text-align: left; /* Ensures list is left-aligned */
 }
 
 .key-insights li {
@@ -60,14 +62,15 @@ section p.description {
 }
 
 /* Chart Frame Styling */
-#barchart, #linechart, #scatterplot, #map {
+.chart-container {
     margin: 0 auto;
     width: 100%;
-    height: 400px;
+    max-width: 900px;
+    padding: 10px;
     border: 2px solid #2980b9;  /* Added border to give a framed look */
     border-radius: 10px;
-    padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Slight shadow for a professional touch */
+    text-align: center;  /* Ensures charts are centered within their container */
 }
 
 footer {
