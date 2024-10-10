@@ -6,9 +6,9 @@
     <title>Malnutrition Infographic</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Import Vega, Vega-Lite, and Vega-Embed -->
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.18.2"></script>
 </head>
 <body>
 
@@ -74,9 +74,14 @@
                     "field": "Types of Malnutrition",
                     "type": "nominal",
                     "legend": {"title": "Types of Malnutrition"}
-                }
+                },
+                "tooltip": [
+                  {"field": "Year", "type": "temporal"},
+                  {"field": "National Point Estimate", "type": "quantitative"},
+                  {"field": "Types of Malnutrition", "type": "nominal"}
+                ]
             }
-        });
+        }, {tooltip: true});
 
         // Bar Chart
         vegaEmbed('#barchart', {
@@ -109,9 +114,14 @@
                         "domain": ["High Income", "Upper Middle Income", "Lower Middle Income"],
                         "range": ["#377eb8", "#e41a1c", "#ff7f00"]
                     }
-                }
+                },
+                "tooltip": [
+                  {"field": "Countries", "type": "nominal"},
+                  {"field": "Estimate", "type": "quantitative"},
+                  {"field": "Income Groups", "type": "nominal"}
+                ]
             }
-        });
+        }, {tooltip: true});
 
         // Scatterplot for Stunting Estimates vs Education Disparities
         vegaEmbed('#scatterplot', {
@@ -165,7 +175,7 @@
                     }
                 }
             ]
-        });
+        }, {tooltip: true});
 
         // Map of Malaysia
         vegaEmbed('#map', {
@@ -214,11 +224,15 @@
                             "field": "Percentage",
                             "type": "quantitative",
                             "scale": {"scheme": "reds"}
-                        }
+                        },
+                        "tooltip": [
+                            {"field": "properties.Name", "type": "nominal", "title": "State"},
+                            {"field": "Percentage", "type": "quantitative", "title": "Stunting (%)"}
+                        ]
                     }
                 }
             ]
-        });
+        }, {tooltip: true});
     </script>
 </body>
 </html>
