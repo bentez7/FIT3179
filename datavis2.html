@@ -27,7 +27,7 @@
             Malnutrition in Asia remains a pressing issue, with stunting affecting 55% of children, while 68% suffer from wasting, 
             and 47% from being overweight. These rates are more severe compared to other regions globally (Yani et al., 2023).
         </p>
-        <div id="linechart"></div>
+        <div class="chart-container" id="linechart"></div>
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
@@ -44,7 +44,7 @@
         <p class="description">
             Climate change is drastically affecting food security in Asia, with glacier mass loss and rising sea temperatures contributing to food production issues.
         </p>
-        <div id="map"></div>
+        <div class="chart-container" id="map"></div>
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
@@ -61,7 +61,7 @@
         <p class="description">
             This bar chart illustrates the disparity in stunting rates across Asian countries, categorized by income groups. The data shows that lower-middle-income countries face the highest stunting rates (Yani et al., 2023).
         </p>
-        <div id="barchart"></div>
+        <div class="chart-container" id="barchart"></div>
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
@@ -77,7 +77,7 @@
         <p class="description">
             This chart shows the positive correlation between education disparity and stunting prevalence across Asian countries. Countries with higher education disparity experience higher rates of stunting.
         </p>
-        <div id="scatterplot"></div>
+        <div class="chart-container" id="scatterplot"></div>
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
@@ -149,11 +149,7 @@
                     "color": {"condition": {"test": "datum.Estimate > datum.Education", "value": "red"}, "value": "blue"}
                 }
             }, {
-                "mark": {
-                    "type": "line",
-                    "color": "black",
-                    "strokeDash": [4, 4]
-                },
+                "mark": {"type": "line", "color": "black", "strokeDash": [4, 4]},
                 "transform": [{"regression": "Estimate", "on": "Education", "method": "linear"}],
                 "encoding": {
                     "x": {"field": "Education", "type": "quantitative"},
