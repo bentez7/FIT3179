@@ -61,16 +61,17 @@ section p.description {
     margin-bottom: 10px;
 }
 
-/* Chart Frame Styling */
+/* General chart frame styling */
 .chart-container {
     margin: 0 auto;
     width: 100%;
     max-width: 900px;
-    padding: 10px;
-    border: 2px solid #2980b9;  /* Added border to give a framed look */
+    padding: 20px;  /* Increased padding */
+    border: 2px solid #2980b9;  /* Frame color */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Slight shadow for a professional touch */
-    text-align: center;  /* Ensures charts are centered within their container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: 550px;  /* Ensures charts with more height fit well */
 }
 
 footer {
