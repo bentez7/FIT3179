@@ -22,10 +22,9 @@
 
     <!-- Stunting, Wasting, and Overweight Section -->
     <section>
-        <h2>Stunting, Wasting & Overweight in Asia (2023)</h2>
+        <h2>Stunting, Wasting & Overweight in Asia (1991-2019)</h2>
         <p class="description">
-            Malnutrition in Asia remains a pressing issue, with stunting affecting 55% of children, while 68% suffer from wasting, 
-            and 47% from being overweight. These rates are more severe compared to other regions globally (Yani et al., 2023).
+            Malnutrition in Asia remains a pressing issue, with stunting being the most common form of malnutrition, followed by wasting and overweight cases.
         </p>
         <div class="chart-container">
             <div id="linechart"></div>
@@ -33,9 +32,9 @@
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
-                <li><strong>Stunting</strong> remains the most critical malnutrition challenge across Asia.</li>
-                <li><strong>Severe Wasting</strong> shows stable trends but still accounts for 20-30% of malnutrition-related mortality.</li>
-                <li><strong>Overweight</strong> has been rising, particularly since the early 2000s, contributing to non-communicable diseases (NCDs) such as cardiovascular disease, diabetes, and cancer (Thapa et al., 2021).</li>
+                <li><strong>Stunting</strong> is the most critical malnutrition issue, consistently higher over the years.</li>
+                <li><strong>Severe Wasting</strong> is stable but still contributes significantly to malnutrition-related deaths, accounting for 20-30% of these cases.</li>
+                <li><strong>Overweight</strong> has been steadily increasing, especially since the early 2000s, leading to a rise in non-communicable diseases (NCDs) such as heart disease and diabetes.</li>
             </ul>
         </div>
     </section>
@@ -44,7 +43,7 @@
     <section>
         <h2>Melting Glaciers and Rising Seas: Climate Change Threatens Food Security</h2>
         <p class="description">
-            Climate change is drastically affecting food security in Asia, with glacier mass loss and rising sea temperatures contributing to food production issues.
+            Climate change is drastically affecting food security in Asia, with glacier mass loss and rising sea temperatures leading to severe disruptions in food production.
         </p>
         <div class="chart-container">
             <div id="map"></div>
@@ -52,9 +51,9 @@
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
-                <li>The <strong>Drang-Drung Glacier</strong> in India is undergoing the most severe loss in glacier mass balance.</li>
-                <li>Glacier melt will have a lasting impact on water resources and food production (Smail, 2024).</li>
-                <li><strong>Rising sea levels</strong> due to climate change threaten soil quality, ultimately affecting agriculture yield (Jusop, 2022).</li>
+                <li>The <strong>Drang-Drung Glacier</strong> in India has experienced the most significant ice mass loss.</li>
+                <li>This rapid glacier melt impacts water availability and food production in the region.</li>
+                <li><strong>Rising sea levels</strong> threaten agricultural land due to soil salinity, affecting crop yields.</li>
             </ul>
         </div>
     </section>
@@ -63,7 +62,7 @@
     <section>
         <h2>Stunting Estimates by Income Group in Asia</h2>
         <p class="description">
-            This bar chart illustrates the disparity in stunting rates across Asian countries, categorized by income groups. The data shows that lower-middle-income countries face the highest stunting rates (Yani et al., 2023).
+            This chart illustrates how stunting prevalence varies by income group across Asian countries, with lower-middle-income countries facing the highest rates of malnutrition.
         </p>
         <div class="chart-container">
             <div id="barchart"></div>
@@ -71,8 +70,8 @@
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
-                <li><strong>Bangladesh</strong> ranks first in stunting rates, followed by India and Pakistan.</li>
-                <li>Education and income levels are significant factors influencing malnutrition. Parents equipped with better knowledge about nutrition can reduce stunting rates significantly.</li>
+                <li><strong>Bangladesh</strong> ranks highest in stunting rates, followed by India and Pakistan.</li>
+                <li>Lower-income groups are more vulnerable to malnutrition, largely due to limited access to nutrition and education.</li>
             </ul>
         </div>
     </section>
@@ -81,7 +80,7 @@
     <section>
         <h2>Stunting Estimates vs Education Disparities in Asia</h2>
         <p class="description">
-            This chart shows the positive correlation between education disparity and stunting prevalence across Asian countries. Countries with higher education disparity experience higher rates of stunting.
+            This chart shows a positive correlation between education disparity and stunting rates across Asian countries. Higher education inequality leads to increased malnutrition cases.
         </p>
         <div class="chart-container">
             <div id="scatterplot"></div>
@@ -89,8 +88,8 @@
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
-                <li>There is a positive correlation between <strong>education disparity</strong> and stunting prevalence.</li>
-                <li>Improving education levels could mitigate malnutrition and reduce stunting rates (Yani et al., 2023).</li>
+                <li>Countries with greater education disparity experience higher stunting rates.</li>
+                <li>Improving access to education can significantly reduce malnutrition in vulnerable populations.</li>
             </ul>
         </div>
     </section>
@@ -167,13 +166,13 @@
         vegaEmbed('#map', {
           "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
           "title": "Stunting Percentage by State in Malaysia",
-          "width": 1200,
-          "height": 600,
+          "width": 1000,  // Reduced width
+          "height": 500,  // Reduced height
           "projection": {
             "type": "mercator",
-            "scale": 3000,  // Zoom in on Malaysia more
-            "translate": [600, 300],
-            "center": [110, 3]  // Adjust center to focus on Malaysia
+            "scale": 3500,  // Zoom in more to reduce overlap
+            "translate": [500, 250],  // Adjust position
+            "center": [110, 3]  // Keep focus on Malaysia
           },
           "layer": [
             {
@@ -210,8 +209,8 @@
                 "color": {
                   "field": "Percentage",
                   "type": "quantitative",
-                  "scale": {"scheme": "reds"},  // Changed color scheme to red shades
-                  "legend": {"title": "Stunting (%)"}  // Add a legend
+                  "scale": {"scheme": "reds"},
+                  "legend": {"title": "Stunting (%)"}
                 },
                 "tooltip": [
                   {"field": "properties.Name", "type": "nominal", "title": "State"},
