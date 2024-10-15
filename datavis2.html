@@ -106,7 +106,7 @@
                 "color": {"field": "Types of Malnutrition", "type": "nominal", "legend": {"title": "Malnutrition Types"}},
                 "tooltip": [{"field": "Year"}, {"field": "National Point Estimate"}, {"field": "Types of Malnutrition"}]
             }
-        }, {tooltip: true});
+        }).catch(console.error);
 
         // Bar Chart for Stunting by Income Group
         vegaEmbed('#barchart', {
@@ -122,7 +122,7 @@
                 "color": {"field": "Income Groups", "type": "nominal", "title": "Income Group", "scale": {"domain": ["High Income", "Upper Middle Income", "Lower Middle Income"], "range": ["#377eb8", "#e41a1c", "#ff7f00"]}},
                 "tooltip": [{"field": "Countries"}, {"field": "Estimate"}, {"field": "Income Groups"}]
             }
-        }, {tooltip: true});
+        }).catch(console.error);
 
         // Scatterplot for Education vs Stunting
         vegaEmbed('#scatterplot', {
@@ -144,7 +144,7 @@
                 "transform": [{"regression": "Estimate", "on": "Education", "method": "linear"}],
                 "encoding": {"x": {"field": "Education", "type": "quantitative"}, "y": {"field": "Estimate", "type": "quantitative"}}
             }]
-        }, {tooltip: true});
+        }).catch(console.error);
 
         // Map of Malaysia
         vegaEmbed('#map', {
@@ -159,17 +159,6 @@
             "center": [110, 3]
           },
           "layer": [
-            {
-              "data": {
-                "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-                "format": { "type": "topojson", "feature": "oceans" }
-              },
-              "mark": { "type": "geoshape", "fill": "skyblue" }
-            },
-            {
-              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"},
-              "data": {"graticule": {"step": [10, 10]}}
-            },
             {
               "data": {
                 "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson",
@@ -203,7 +192,7 @@
               }
             }
           ]
-        }, {tooltip: true});
+        }).catch(console.error);
     </script>
 </body>
 </html>
