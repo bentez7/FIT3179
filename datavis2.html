@@ -113,6 +113,14 @@
                 "as": ["Types of Malnutrition", "National Point Estimate"]
             }],
             "mark": "line",
+            "selection": {
+                "yearRange": {
+                    "type": "interval",  // Interval selection for slider
+                    "encodings": ["x"],  // Bind to x-axis (Year)
+                    "bind": "scales"     // Bind to the x-scale (Year)
+                }
+            },
+
             "encoding": {
                 "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year"}},
                 "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate"}},
@@ -156,7 +164,24 @@
                 "mark": {"type": "line", "color": "black", "strokeDash": [4, 4]},
                 "transform": [{"regression": "Estimate", "on": "Education", "method": "linear"}],
                 "encoding": {"x": {"field": "Education", "type": "quantitative"}, "y": {"field": "Estimate", "type": "quantitative"}}
-            }]
+            },
+                      {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": 5,
+                "dy": -5,
+                "fontSize": 12,
+                "fontWeight": "bold",
+                "color": "black"
+              },
+              "encoding": {
+                "x": {"value": 59.3},  // X position (Education)
+                "y": {"value": 73.6},  // Y position (Estimate)
+                "text": {"value": "Education: 59.3, Estimate: 73.6"}  // Annotation text
+              }
+            }
+          ]
         }, {tooltip: true});
 
         // Map of Malaysia
