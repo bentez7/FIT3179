@@ -22,9 +22,7 @@ header p {
     margin-top: 0;
 }
 
-.section-layout {
-    display: flex; /* Use flexbox for better alignment */
-    flex-direction: row; /* Align items in a row */
+section {
     margin: 40px auto;
     width: 80%;
     background-color: white;
@@ -33,8 +31,20 @@ header p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.chart-container {
-    flex: 1; /* Make chart container take up equal space */
+section h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+section .description {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+section .chart-container {
+    margin: 0 auto;
+    width: 80%;
     height: 450px;
     padding: 10px;
     border: 1px solid #d0d0d0;
@@ -42,9 +52,8 @@ header p {
     background-color: #fff;
 }
 
-.key-insights {
-    flex: 1; /* Make key insights take up equal space */
-    margin-left: 20px; /* Add space between chart and insights */
+section .key-insights {
+    margin-top: 20px;
     font-size: 1em;
     color: #555;
 }
