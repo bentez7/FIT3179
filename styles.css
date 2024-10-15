@@ -45,7 +45,7 @@ section .description {
 section .chart-container {
     margin: 0 auto;
     width: 80%;
-    height: 500px;
+    height: 485px;
     padding: 10px;
     border: 1px solid #d0d0d0;
     border-radius: 8px;
