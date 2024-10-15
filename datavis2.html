@@ -21,7 +21,11 @@
     </header>
 
     <!-- Stunting, Wasting, and Overweight Section -->
-    <section class="section-layout">
+    <section>
+        <h2>Stunting, Wasting & Overweight in Asia (1991-2019)</h2>
+        <p class="description">
+            Malnutrition remains prevalent in Asia, with stunting consistently being the most widespread form of malnutrition.
+        </p>
         <div class="chart-container">
             <div id="linechart"></div>
         </div>
@@ -29,14 +33,18 @@
             <h3>Key Insights:</h3>
             <ul>
                 <li><strong>Stunting</strong> continues to be the most critical malnutrition issue across Asia.</li>
-                <li><strong>Severe Wasting</strong> has remained stable but still contributes to 20-30% of malnutrition-related deaths.</li>
-                <li><strong>Overweight</strong> prevalence has been rising, increasing the risk of NCDs like cardiovascular disease.</li>
+                <li><strong>Severe Wasting</strong> has remained relatively stable but still contributes to 20-30% of malnutrition-related deaths.</li>
+                <li><strong>Overweight</strong> prevalence has been steadily rising since the early 2000s, increasing the risk of non-communicable diseases (NCDs) such as cardiovascular disease, diabetes, and cancer (Thapa et al., 2021).</li>
             </ul>
         </div>
     </section>
 
     <!-- Stunting in Malaysia Section -->
-    <section class="section-layout">
+    <section>
+        <h2>Stunting in Malaysia by State</h2>
+        <p class="description">
+            This map visualizes the stunting rates across various states in Malaysia.
+        </p>
         <div class="chart-container">
             <div id="map"></div>
         </div>
@@ -49,7 +57,11 @@
     </section>
 
     <!-- Stunting Estimates by Income Group Section -->
-    <section class="section-layout">
+    <section>
+        <h2>Stunting Estimates by Income Group (Asian Countries)</h2>
+        <p class="description">
+            This bar chart illustrates the impact of income levels on stunting rates across Asian countries.
+        </p>
         <div class="chart-container">
             <div id="barchart"></div>
         </div>
@@ -63,14 +75,18 @@
     </section>
 
     <!-- Stunting vs Education Disparity Section -->
-    <section class="section-layout">
+    <section>
+        <h2>Stunting Estimates vs Education Disparities in Asia</h2>
+        <p class="description">
+            This chart highlights the correlation between education inequality and stunting rates across Asia.
+        </p>
         <div class="chart-container">
             <div id="scatterplot"></div>
         </div>
         <div class="key-insights">
             <h3>Key Insights:</h3>
             <ul>
-                <li><strong>Higher education disparities</strong> are associated with increased stunting rates.</li>
+                <li><strong>Higher education disparities</strong> are associated with increased stunting rates, as shown by the positive trend line.</li>
             </ul>
         </div>
     </section>
@@ -88,25 +104,22 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": 800,
             "height": 400,
-            "title": "Trends in National Estimates of Obesity, Stunting, and Severe Wasting (1986–2022)",
+            "title": "Trends in National Estimates of Overweight, Stunting, and Severe Wasting (1986–2022)",
             "data": {
                 "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Cleaned_data.csv"
             },
             "transform": [{
-                "fold": [
-                    {"as": "Obesity", "field": "Overweight_National_Point_Estimate"},
-                    {"as": "Stunting", "field": "Stunting_National_Point_Estimate"},
-                    {"as": "Severe Wasting", "field": "Severe_Wasting_National_Point_Estimate"}
-                ]
+                "fold": ["Overweight_National_Point_Estimate", "Stunting_National_Point_Estimate", "Severe_Wasting_National_Point_Estimate"],
+                "as": ["Types of Malnutrition", "National Point Estimate"]
             }],
             "mark": "line",
             "encoding": {
-                "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year", "labelFontSize": 14, "titleFontSize": 16}},
-                "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate", "labelFontSize": 14, "titleFontSize": 16}},
-                "color": {"field": "Types of Malnutrition", "type": "nominal", "legend": {"title": "Malnutrition Types"}},
+                "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year"}},
+                "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate"}},
+                "color": {"field": "Types of Malnutrition", "type": "nominal", "legend": {"title": "Types of Malnutrition"}},
                 "tooltip": [{"field": "Year"}, {"field": "National Point Estimate"}, {"field": "Types of Malnutrition"}]
             }
-        }).catch(console.error);
+        }, {tooltip: true});
 
         // Bar Chart for Stunting by Income Group
         vegaEmbed('#barchart', {
@@ -117,25 +130,25 @@
             "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Income%20and%20stunning%20dataset.csv", "format": {"type": "csv"}},
             "mark": "bar",
             "encoding": {
-                "y": {"field": "Countries", "type": "nominal", "title": "Country", "axis": {"labelFontSize": 14, "titleFontSize": 16}},
-                "x": {"field": "Estimate", "type": "quantitative", "title": "Stunting (%)", "axis": {"labelFontSize": 14, "titleFontSize": 16}},
+                "y": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-x"},
+                "x": {"field": "Estimate", "type": "quantitative", "title": "Stunting (%)"},
                 "color": {"field": "Income Groups", "type": "nominal", "title": "Income Group", "scale": {"domain": ["High Income", "Upper Middle Income", "Lower Middle Income"], "range": ["#377eb8", "#e41a1c", "#ff7f00"]}},
                 "tooltip": [{"field": "Countries"}, {"field": "Estimate"}, {"field": "Income Groups"}]
             }
-        }).catch(console.error);
+        }, {tooltip: true});
 
         // Scatterplot for Education vs Stunting
         vegaEmbed('#scatterplot', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "width": 900,
+            "width": 900,  // Increased width
             "height": 400,
             "title": "Stunting Estimates vs Education Disparities in Asia",
             "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv", "format": {"type": "csv"}},
             "layer": [{
                 "mark": "point",
                 "encoding": {
-                    "x": {"field": "Education", "type": "quantitative", "title": "Education Disparity", "axis": {"labelFontSize": 14, "titleFontSize": 16}},
-                    "y": {"field": "Estimate", "type": "quantitative", "title": "Stunting Estimate (%)", "axis": {"labelFontSize": 14, "titleFontSize": 16}},
+                    "x": {"field": "Education", "type": "quantitative", "title": "Education Disparity"},
+                    "y": {"field": "Estimate", "type": "quantitative", "title": "Stunting Estimate (%)"},
                     "tooltip": [{"field": "Education", "type": "quantitative"}, {"field": "Estimate", "type": "quantitative"}],
                     "color": {"condition": {"test": "datum.Estimate > datum.Education", "value": "red"}, "value": "blue"}
                 }
@@ -144,21 +157,32 @@
                 "transform": [{"regression": "Estimate", "on": "Education", "method": "linear"}],
                 "encoding": {"x": {"field": "Education", "type": "quantitative"}, "y": {"field": "Estimate", "type": "quantitative"}}
             }]
-        }).catch(console.error);
+        }, {tooltip: true});
 
         // Map of Malaysia
         vegaEmbed('#map', {
           "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
           "title": "Stunting Percentage by State in Malaysia",
-          "width": 800,
-          "height": 400,
+          "width": 800,  // Reduced width to avoid overlapping
+          "height": 400,  // Reduced height to fit better
           "projection": {
             "type": "mercator",
-            "scale": 2500,
+            "scale": 2500,  // Zoom in on Malaysia more
             "translate": [500, 250],
-            "center": [110, 3]
+            "center": [110, 3]  // Adjust center to focus on Malaysia
           },
           "layer": [
+            {
+              "data": {
+                "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+                "format": { "type": "topojson", "feature": "oceans" }
+              },
+              "mark": { "type": "geoshape", "fill": "skyblue" }  // Ocean layer
+            },
+            {
+              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"},  // Changed country color to soft beige
+              "data": {"graticule": {"step": [10, 10]}}  // Graticule (gridlines)
+            },
             {
               "data": {
                 "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson",
@@ -182,8 +206,8 @@
                 "color": {
                   "field": "Percentage",
                   "type": "quantitative",
-                  "scale": {"scheme": "reds"},
-                  "legend": {"title": "Stunting (%)"}
+                  "scale": {"scheme": "reds"},  // Changed color scheme to red shades
+                  "legend": {"title": "Stunting (%)"}  // Add a legend
                 },
                 "tooltip": [
                   {"field": "properties.Name", "type": "nominal", "title": "State"},
@@ -192,7 +216,7 @@
               }
             }
           ]
-        }).catch(console.error);
+        }, {tooltip: true});
     </script>
 </body>
 </html>
