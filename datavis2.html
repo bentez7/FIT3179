@@ -99,7 +99,7 @@
 
     <!-- Vega Embed Scripts for Charts -->
     <script>
-        // Line Chart for Trends in Malnutrition
+        // Line Chart for Trends in Malnutrition with Start and End Year Sliders
         vegaEmbed('#linechart', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": 800,
@@ -115,17 +115,20 @@
             "mark": "line",
             "selection": {
                 "yearRange": {
-                    "type": "interval",  // Interval selection for slider
-                    "encodings": ["x"],  // Bind to x-axis (Year)
-                    "bind": "scales"     // Bind to the x-scale (Year)
+                    "type": "interval",   // Interval selection for start and end year
+                    "encodings": ["x"],   // Bind to x-axis (Year)
+                    "bind": "scales"      // Allows for zooming and panning
                 }
             },
-
             "encoding": {
                 "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year"}},
                 "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate"}},
                 "color": {"field": "Types of Malnutrition", "type": "nominal", "legend": {"title": "Types of Malnutrition"}},
-                "tooltip": [{"field": "Year"}, {"field": "National Point Estimate"}, {"field": "Types of Malnutrition"}]
+                "tooltip": [
+                    {"field": "Year", "type": "temporal", "title": "Year"},
+                    {"field": "National Point Estimate", "type": "quantitative", "title": "Estimate"},
+                    {"field": "Types of Malnutrition", "type": "nominal", "title": "Malnutrition Type"}
+                ]
             }
         }, {tooltip: true});
 
@@ -145,10 +148,10 @@
             }
         }, {tooltip: true});
 
-        // Scatterplot for Education vs Stunting
+        // Scatterplot for Education vs Stunting with Annotations
         vegaEmbed('#scatterplot', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "width": 900,  // Increased width
+            "width": 900,
             "height": 400,
             "title": "Stunting Estimates vs Education Disparities in Asia",
             "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv", "format": {"type": "csv"}},
@@ -165,31 +168,30 @@
                 "transform": [{"regression": "Estimate", "on": "Education", "method": "linear"}],
                 "encoding": {"x": {"field": "Education", "type": "quantitative"}, "y": {"field": "Estimate", "type": "quantitative"}}
             },
-                      {
-              "mark": {
-                "type": "text",
-                "align": "left",
-                "dx": 5,
-                "dy": -5,
-                "fontSize": 12,
-                "fontWeight": "bold",
-                "color": "black"
-              },
-              "encoding": {
-                "x": {"value": 59.3},  // X position (Education)
-                "y": {"value": 73.6},  // Y position (Estimate)
-                "text": {"value": "Education: 59.3, Estimate: 73.6"}  // Annotation text
-              }
-            }
-          ]
+              {
+                  "mark": {
+                    "type": "text",
+                    "align": "left",
+                    "dx": 5,
+                    "dy": -5,
+                    "fontSize": 12,
+                    "fontWeight": "bold",
+                    "color": "black"
+                  },
+                  "encoding": {
+                    "x": {"value": 59.3},  // X position (Education)
+                    "y": {"value": 73.6},  // Y position (Estimate)
+                    "text": {"value": "Education: 59.3, Estimate: 73.6"}  // Annotation text
+                  }
+              }]
         }, {tooltip: true});
 
-        // Map of Malaysia
+        // Map of Malaysia with Annotations for Perak
         vegaEmbed('#map', {
           "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
           "title": "Stunting Percentage by State in Malaysia",
-          "width": 860,  
-          "height": 400,  
+          "width": 860,
+          "height": 400,
           "projection": {
             "type": "mercator",
             "scale": 2500,  // Zoom in on Malaysia more
@@ -198,8 +200,7 @@
           },
           "layer": [
             {
-              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"},  // Changed country color to soft beige
-              "data": {"graticule": {"step": [10, 10]}}  // Graticule (gridlines)
+              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"}  // Soft beige for country fill
             },
             {
               "data": {
@@ -224,13 +225,30 @@
                 "color": {
                   "field": "Percentage",
                   "type": "quantitative",
-                  "scale": {"scheme": "reds"},  // Changed color scheme to red shades
-                  "legend": {"title": "Stunting (%)"}  // Add a legend
+                  "scale": {"scheme": "reds"},  // Red shades for stunting rates
+                  "legend": {"title": "Stunting (%)"}
                 },
                 "tooltip": [
                   {"field": "properties.Name", "type": "nominal", "title": "State"},
                   {"field": "Percentage", "type": "quantitative", "title": "Stunting (%)"}
                 ]
+              }
+            },
+            // Add annotation for Perak
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": 10,
+                "dy": -10,
+                "fontSize": 12,
+                "fontWeight": "bold",
+                "color": "black"
+              },
+              "encoding": {
+                "longitude": {"value": 101.0901},  // Longitude for Perak
+                "latitude": {"value": 4.5933},     // Latitude for Perak
+                "text": {"value": "Perak: 22.7%"}  // Annotation for Perak
               }
             }
           ]
