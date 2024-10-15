@@ -58,7 +58,7 @@
 
     <!-- Vega Embed Scripts for Charts -->
     <script>
-        // Line Chart for Trends in Malnutrition with Dual Year Slider
+        // Line Chart for Trends in Malnutrition with Start and End Year Filters
         vegaEmbed('#linechart', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": 800,
@@ -72,18 +72,35 @@
                 "as": ["Types of Malnutrition", "National Point Estimate"]
             }],
             "mark": "line",
-            "selection": {
-                "yearRange": {
-                    "type": "interval",   // Interval selection for start and end year
-                    "encodings": ["x"],   // Bind to x-axis (Year)
+            "params": [
+                {
+                    "name": "startYear",
+                    "value": 1986,
                     "bind": {
-                        "input": "range",  // Use a range input
-                        "min": 1986,       // Start year (min)
-                        "max": 2022,       // End year (max)
-                        "step": 1          // Step by 1 year
+                        "input": "range",
+                        "min": 1986,
+                        "max": 2022,
+                        "step": 1,
+                        "name": "Start year: "
+                    }
+                },
+                {
+                    "name": "endYear",
+                    "value": 2022,
+                    "bind": {
+                        "input": "range",
+                        "min": 1986,
+                        "max": 2022,
+                        "step": 1,
+                        "name": "End year: "
                     }
                 }
-            },
+            ],
+            "transform": [
+                {
+                    "filter": "datum.Year >= startYear && datum.Year <= endYear"
+                }
+            ],
             "encoding": {
                 "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year"}},
                 "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate"}},
