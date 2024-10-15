@@ -109,7 +109,7 @@
                 "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Cleaned_data.csv"
             },
             "transform": [{
-                "fold": ["Overweight_National_Point_Estimate", "Stunting_National_Point_Estimate", "Severe_Wasting_National_Point_Estimate"],
+                "fold": ["Overweight", "Stunting", "Severe"],
                 "as": ["Types of Malnutrition", "National Point Estimate"]
             }],
             "mark": "line",
@@ -172,13 +172,6 @@
             "center": [110, 3]  // Adjust center to focus on Malaysia
           },
           "layer": [
-            {
-              "data": {
-                "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
-                "format": { "type": "topojson", "feature": "oceans" }
-              },
-              "mark": { "type": "geoshape", "fill": "skyblue" }  // Ocean layer
-            },
             {
               "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"},  // Changed country color to soft beige
               "data": {"graticule": {"step": [10, 10]}}  // Graticule (gridlines)
