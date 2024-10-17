@@ -115,15 +115,9 @@
             "mark": "line",
             "selection": {
                 "yearRange": {
-                    "type": "single",  // Single selection for year slider
-                    "fields": ["Year"], 
-                    "bind": {
-                        "input": "range", 
-                        "min": 1986, 
-                        "max": 2022, 
-                        "step": 1, 
-                        "name": "Filter Year: "
-                    }
+                    "type": "interval",   // Interval selection for start and end year
+                    "encodings": ["x"],   // Bind to x-axis (Year)
+                    "bind": "scales"      // Allows for zooming and panning
                 }
             },
             "encoding": {
@@ -240,7 +234,7 @@
                 ]
               }
             },
-            // Add annotation for Perak
+            // Add annotation for Perak with multi-line text
             {
               "mark": {
                 "type": "text",
@@ -253,8 +247,10 @@
               },
               "encoding": {
                 "longitude": {"value": 101.0901},  // Longitude for Perak
-                "latitude": {"value": 4.7500},     // Adjusted Latitude for Perak
-                "text": {"value": "Perak: 22.7%"}  // Annotation for Perak
+                "latitude": {"value": 4.5933},     // Latitude for Perak
+                "text": {
+                    "value": "State: Perak\nStunting (%): 22.7"  // Multi-line annotation
+                }
               }
             }
           ]
