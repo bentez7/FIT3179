@@ -79,3 +79,10 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+
+/* Media Query for Responsive Design */
+@media (max-width: 768px) {
+    section {
+        width: 95%;
+    }
+}
