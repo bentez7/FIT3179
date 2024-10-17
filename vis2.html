@@ -56,9 +56,50 @@
         </div>
     </section>
 
+    <!-- Stunting Estimates by Income Group Section -->
+    <section>
+        <h2>Stunting Estimates by Income Group (Asian Countries)</h2>
+        <p class="description">
+            This bar chart illustrates the impact of income levels on stunting rates across Asian countries.
+        </p>
+        <div class="chart-container">
+            <div id="barchart"></div>
+        </div>
+        <div class="key-insights">
+            <h3>Key Insights:</h3>
+            <ul>
+                <li>Countries with higher stunting rates tend to fall within the <strong>“Lower Middle Income”</strong> group.</li>
+                <li><strong>Bangladesh</strong> ranks first in stunting, followed by Nepal and India.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Stunting vs Education Disparity Section -->
+    <section>
+        <h2>Stunting Estimates vs Education Disparities in Asia</h2>
+        <p class="description">
+            This chart highlights the correlation between education inequality and stunting rates across Asia.
+        </p>
+        <div class="chart-container">
+            <div id="scatterplot"></div>
+        </div>
+        <div class="key-insights">
+            <h3>Key Insights:</h3>
+            <ul>
+                <li><strong>Higher education disparities</strong> are associated with increased stunting rates, as shown by the positive trend line.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>For further insights, check our <a href="#">full report</a> and policy recommendations.</p>
+        <p>&copy; 2024 Malnutrition Research. All rights reserved.</p>
+    </footer>
+
     <!-- Vega Embed Scripts for Charts -->
     <script>
-        // Line Chart for Trends in Malnutrition with Start and End Year Filters
+        // Line Chart for Trends in Malnutrition with Start and End Year Sliders
         vegaEmbed('#linechart', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": 800,
@@ -72,35 +113,19 @@
                 "as": ["Types of Malnutrition", "National Point Estimate"]
             }],
             "mark": "line",
-            "params": [
-                {
-                    "name": "startYear",
-                    "value": 1986,
+            "selection": {
+                "yearRange": {
+                    "type": "single",  // Single selection for year slider
+                    "fields": ["Year"], 
                     "bind": {
-                        "input": "range",
-                        "min": 1986,
-                        "max": 2022,
-                        "step": 1,
-                        "name": "Start year: "
-                    }
-                },
-                {
-                    "name": "endYear",
-                    "value": 2022,
-                    "bind": {
-                        "input": "range",
-                        "min": 1986,
-                        "max": 2022,
-                        "step": 1,
-                        "name": "End year: "
+                        "input": "range", 
+                        "min": 1986, 
+                        "max": 2022, 
+                        "step": 1, 
+                        "name": "Filter Year: "
                     }
                 }
-            ],
-            "transform": [
-                {
-                    "filter": "datum.Year >= startYear && datum.Year <= endYear"
-                }
-            ],
+            },
             "encoding": {
                 "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year"}},
                 "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate"}},
@@ -113,19 +138,76 @@
             }
         }, {tooltip: true});
 
-        // Map of Malaysia with Annotation for Perak
+        // Bar Chart for Stunting by Income Group
+        vegaEmbed('#barchart', {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 750,
+            "height": 400,
+            "title": "Stunting Estimates by Income Group (Asian Countries)",
+            "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Income%20and%20stunning%20dataset.csv", "format": {"type": "csv"}},
+            "mark": "bar",
+            "encoding": {
+                "y": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-x"},
+                "x": {"field": "Estimate", "type": "quantitative", "title": "Stunting (%)"},
+                "color": {"field": "Income Groups", "type": "nominal", "title": "Income Group", "scale": {"domain": ["High Income", "Upper Middle Income", "Lower Middle Income"], "range": ["#377eb8", "#e41a1c", "#ff7f00"]}},
+                "tooltip": [{"field": "Countries"}, {"field": "Estimate"}, {"field": "Income Groups"}]
+            }
+        }, {tooltip: true});
+
+        // Scatterplot for Education vs Stunting with Annotations
+        vegaEmbed('#scatterplot', {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 900,
+            "height": 400,
+            "title": "Stunting Estimates vs Education Disparities in Asia",
+            "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv", "format": {"type": "csv"}},
+            "layer": [{
+                "mark": "point",
+                "encoding": {
+                    "x": {"field": "Education", "type": "quantitative", "title": "Education Disparity"},
+                    "y": {"field": "Estimate", "type": "quantitative", "title": "Stunting Estimate (%)"},
+                    "tooltip": [{"field": "Education", "type": "quantitative"}, {"field": "Estimate", "type": "quantitative"}],
+                    "color": {"condition": {"test": "datum.Estimate > datum.Education", "value": "red"}, "value": "blue"}
+                }
+            }, {
+                "mark": {"type": "line", "color": "black", "strokeDash": [4, 4]},
+                "transform": [{"regression": "Estimate", "on": "Education", "method": "linear"}],
+                "encoding": {"x": {"field": "Education", "type": "quantitative"}, "y": {"field": "Estimate", "type": "quantitative"}}
+            },
+              {
+                  "mark": {
+                    "type": "text",
+                    "align": "left",
+                    "dx": 5,
+                    "dy": -5,
+                    "fontSize": 12,
+                    "fontWeight": "bold",
+                    "color": "black"
+                  },
+                  "encoding": {
+                    "x": {"value": 59.3},  // X position (Education)
+                    "y": {"value": 73.6},  // Y position (Estimate)
+                    "text": {"value": "Education: 59.3, Estimate: 73.6"}  // Annotation text
+                  }
+              }]
+        }, {tooltip: true});
+
+        // Map of Malaysia with Annotations for Perak
         vegaEmbed('#map', {
           "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
           "title": "Stunting Percentage by State in Malaysia",
-          "width": 800,
+          "width": 860,
           "height": 400,
           "projection": {
             "type": "mercator",
-            "scale": 2500,
+            "scale": 2500,  // Zoom in on Malaysia more
             "translate": [500, 250],
-            "center": [110, 3]
+            "center": [110, 3]  
           },
           "layer": [
+            {
+              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"}  // Soft beige for country fill
+            },
             {
               "data": {
                 "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson",
@@ -149,7 +231,7 @@
                 "color": {
                   "field": "Percentage",
                   "type": "quantitative",
-                  "scale": {"scheme": "reds"},
+                  "scale": {"scheme": "reds"},  // Red shades for stunting rates
                   "legend": {"title": "Stunting (%)"}
                 },
                 "tooltip": [
@@ -171,13 +253,12 @@
               },
               "encoding": {
                 "longitude": {"value": 101.0901},  // Longitude for Perak
-                "latitude": {"value": 4.5933},     // Latitude for Perak
+                "latitude": {"value": 4.7500},     // Adjusted Latitude for Perak
                 "text": {"value": "Perak: 22.7%"}  // Annotation for Perak
               }
             }
           ]
         }, {tooltip: true});
     </script>
-
 </body>
 </html>
