@@ -264,7 +264,7 @@
                   "encoding": {
                     "x": {"value": 12.3},  // X position (Education)
                     "y": {"value": 63.8},  // Y position (Estimate)
-                    "text": {"value": "Education: 59.3, Estimate: 73.6"}  // Annotation text
+                    "text": {"value": "Education: 12.3, Estimate: 63.8"}  // Annotation text
                   }
               }]
         }, {tooltip: true});
@@ -277,17 +277,17 @@
           "height": 400,
           "projection": {
             "type": "mercator",
-            "scale": 2500,  // Zoom in on Malaysia more
+            "scale": 2500,  // Zoom in on Malaysia
             "translate": [500, 250],
             "center": [110, 3]  
           },
           "layer": [
             {
-              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"}  // Soft beige for country fill
+              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"}
             },
             {
               "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson",
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson", // TopoJSON for states
                 "format": {"type": "topojson", "feature": "states"}
               },
               "transform": [
@@ -317,21 +317,21 @@
                 ]
               }
             },
-            // Add annotation for Perak
+            // Annotation for Perak (this layer comes LAST to appear on top)
             {
               "mark": {
                 "type": "text",
                 "align": "left",
-                "dx": 10,
-                "dy": -10,
+                "dx": 15,  // Adjusted for better placement
+                "dy": -5,
                 "fontSize": 12,
                 "fontWeight": "bold",
                 "color": "black"
               },
               "encoding": {
                 "longitude": {"value": 101.0901},  // Longitude for Perak
-                "latitude": {"value": 4.5933},     // Latitude for Perak
-                "text": {"value": "Perak: 22.7%"}  // Annotation for Perak
+                "latitude": {"value": 4.5921},     // Latitude for Perak
+                "text": {"value": "Perak: 22.7%"}  // Annotation text for Perak
               }
             }
           ]
