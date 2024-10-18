@@ -99,7 +99,7 @@
 
     <!-- Vega Embed Scripts for Charts -->
     <script>
-        // Line Chart for Trends in Malnutrition with Start and End Year Sliders
+        // Line Chart for Trends in Malnutrition with hover interaction to display the year
         vegaEmbed('#linechart', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": 800,
@@ -112,39 +112,119 @@
                 "fold": ["Overweight", "Stunting", "Severe"],
                 "as": ["Types of Malnutrition", "National Point Estimate"]
             }],
-            "mark": "line",
-            "selection": {
-                "yearRange": {
-                    "type": "interval",   // Interval selection for start and end year
-                    "encodings": ["x"],   // Bind to x-axis (Year)
-                    "bind": "scales"      // Allows for zooming and panning
+            "layer": [
+                {
+                    "mark": "line",
+                    "encoding": {
+                        "x": {
+                            "field": "Year",
+                            "type": "temporal",
+                            "axis": {"title": "Year"}
+                        },
+                        "y": {
+                            "field": "National Point Estimate",
+                            "type": "quantitative",
+                            "axis": {"title": "National Point Estimate"}
+                        },
+                        "color": {
+                            "field": "Types of Malnutrition",
+                            "type": "nominal",
+                            "legend": {"title": "Types of Malnutrition"}
+                        }
+                    }
+                },
+                {
+                    "params": [{
+                        "name": "hoverPoint",
+                        "select": {
+                            "type": "point",
+                            "fields": ["Year"],  // Track Year field
+                            "on": "mouseover",   // Trigger hover on mouseover
+                            "nearest": true
+                        }
+                    }],
+                    "mark": {"type": "point"},
+                    "encoding": {
+                        "x": {"field": "Year", "type": "temporal"},
+                        "y": {"field": "National Point Estimate", "type": "quantitative"},
+                        "opacity": {"value": 0}  // Hide the point, used for interaction
+                    }
+                },
+                {
+                    "transform": [
+                        {"filter": {"param": "hoverPoint"}}
+                    ],
+                    "mark": "rule",  // Vertical line at the hovered point
+                    "encoding": {
+                        "x": {"field": "Year", "type": "temporal"},
+                        "color": {"value": "black"},  // Set the color of the rule
+                        "size": {"value": 1}  // Thickness of the rule
+                    }
+                },
+                {
+                    "transform": [
+                        {"filter": {"param": "hoverPoint"}}
+                    ],
+                    "mark": "text",
+                    "encoding": {
+                        "x": {"field": "Year", "type": "temporal"},
+                        "y": {"value": 10},  // Position the text at the top of the chart
+                        "text": {"field": "Year", "type": "temporal", "format": "%Y"},  // Display only the year
+                        "color": {"value": "black"}
+                    }
                 }
-            },
-            "encoding": {
-                "x": {"field": "Year", "type": "temporal", "axis": {"title": "Year"}},
-                "y": {"field": "National Point Estimate", "type": "quantitative", "axis": {"title": "National Point Estimate"}},
-                "color": {"field": "Types of Malnutrition", "type": "nominal", "legend": {"title": "Types of Malnutrition"}},
-                "tooltip": [
-                    {"field": "Year", "type": "temporal", "title": "Year"},
-                    {"field": "National Point Estimate", "type": "quantitative", "title": "Estimate"},
-                    {"field": "Types of Malnutrition", "type": "nominal", "title": "Malnutrition Type"}
-                ]
-            }
+            ]
         }, {tooltip: true});
 
-        // Bar Chart for Stunting by Income Group
+        // Bar Chart with dropdown for filtering Income Groups
         vegaEmbed('#barchart', {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
             "width": 750,
             "height": 400,
             "title": "Stunting Estimates by Income Group (Asian Countries)",
-            "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Income%20and%20stunning%20dataset.csv", "format": {"type": "csv"}},
+            "data": {
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Income%20and%20stunning%20dataset.csv",
+                "format": {"type": "csv"}
+            },
+            "transform": [
+                {
+                    "filter": {"param": "incomeGroupSelection"}  // Apply filter based on the dropdown selection
+                }
+            ],
+            "selection": {
+                "incomeGroupSelection": {
+                    "type": "single",  // Single selection for dropdown
+                    "fields": ["Income Groups"],  // Field to filter
+                    "bind": {
+                        "input": "select",  // Use a dropdown selection box
+                        "options": [
+                            null,  // Allow no filtering option (shows all)
+                            "High Income",
+                            "Upper Middle Income",
+                            "Lower Middle Income"
+                        ],
+                        "name": "Select Income Group: "  // Label for the dropdown box
+                    }
+                }
+            },
             "mark": "bar",
             "encoding": {
                 "y": {"field": "Countries", "type": "nominal", "title": "Country", "sort": "-x"},
                 "x": {"field": "Estimate", "type": "quantitative", "title": "Stunting (%)"},
-                "color": {"field": "Income Groups", "type": "nominal", "title": "Income Group", "scale": {"domain": ["High Income", "Upper Middle Income", "Lower Middle Income"], "range": ["#377eb8", "#e41a1c", "#ff7f00"]}},
-                "tooltip": [{"field": "Countries"}, {"field": "Estimate"}, {"field": "Income Groups"}]
+                "color": {
+                    "field": "Income Groups",
+                    "type": "nominal",
+                    "title": "Income Group",
+                    "scale": {
+                        "domain": ["High Income", "Upper Middle Income", "Lower Middle Income"],
+                        "range": ["#377eb8", "#e41a1c", "#ff7f00"]
+                    }
+                },
+                "tooltip": [
+                    {"field": "Countries", "type": "nominal"},
+                    {"field": "Estimate", "type": "quantitative"},
+                    {"field": "Income Groups", "type": "nominal"}
+                ]
             }
         }, {tooltip: true});
 
@@ -154,7 +234,10 @@
             "width": 900,
             "height": 400,
             "title": "Stunting Estimates vs Education Disparities in Asia",
-            "data": {"url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv", "format": {"type": "csv"}},
+            "data": {
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/Education%20and%20stunning.csv",
+                "format": {"type": "csv"}
+            },
             "layer": [{
                 "mark": "point",
                 "encoding": {
@@ -179,9 +262,9 @@
                     "color": "black"
                   },
                   "encoding": {
-                    "x": {"value": 59.3},  // X position (Education)
-                    "y": {"value": 73.6},  // Y position (Estimate)
-                    "text": {"value": "Education: 59.3, Estimate: 73.6"}  // Annotation text
+                    "x": {"value": 12.3},  // X position (Education)
+                    "y": {"value": 63.8},  // Y position (Estimate)
+                    "text": {"value": "Education: 12.3, Estimate: 63.8"}  // Annotation text
                   }
               }]
         }, {tooltip: true});
@@ -194,17 +277,17 @@
           "height": 400,
           "projection": {
             "type": "mercator",
-            "scale": 2500,  // Zoom in on Malaysia more
+            "scale": 2500,  // Zoom in on Malaysia
             "translate": [500, 250],
             "center": [110, 3]  
           },
           "layer": [
             {
-              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"}  // Soft beige for country fill
+              "mark": {"type": "geoshape", "fill": "#e0dac2", "stroke": "white"}
             },
             {
               "data": {
-                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson",
+                "url": "https://raw.githubusercontent.com/bentez7/FIT3179/main/malaysia-states.topojson", // TopoJSON for states
                 "format": {"type": "topojson", "feature": "states"}
               },
               "transform": [
@@ -234,21 +317,21 @@
                 ]
               }
             },
-            // Add annotation for Perak
+            // Annotation for Perak (this layer comes LAST to appear on top)
             {
               "mark": {
                 "type": "text",
                 "align": "left",
-                "dx": 10,
-                "dy": -10,
+                "dx": 15,  // Adjusted for better placement
+                "dy": -5,
                 "fontSize": 12,
                 "fontWeight": "bold",
                 "color": "black"
               },
               "encoding": {
                 "longitude": {"value": 101.0901},  // Longitude for Perak
-                "latitude": {"value": 4.5933},     // Latitude for Perak
-                "text": {"value": "Perak: 22.7%"}  // Annotation for Perak
+                "latitude": {"value": 4.5921},     // Latitude for Perak
+                "text": {"value": "Perak: 22.7%"}  // Annotation text for Perak
               }
             }
           ]
